@@ -1,11 +1,16 @@
 #ifndef _PNET_HPP
 #define _PNET_HPP
+#include "stdio.h"
 #define NEURONHIGH 1.0
 #define NEURONLOW  0.0
-#define TRUE	   1
-#define FALSE	   0
+#define TRUE	     1
+#define FALSE	     0
+#define MAXLAYERS    6                 // Max # of layers permitted in network
+
+class WEIGHT;
 
 class WEIGHTIMAGE {
+public:
 	double data;
 	int    sneuron;
 	int    dneuron;
@@ -58,11 +63,15 @@ public:
 	NEURON(void) {
 		id = 0;
 		out = 0;
+		weight1 = NULL;
+		next = NULL;
 	}
 	NEURON(int ident, int bias = 0) {
 		id = ident;
 		out = 0;
 		BiasFlg = bias;
+		weight1 = NULL;
+		next = NULL;
 	}
 
 	void Calc(void);
@@ -90,6 +99,7 @@ private:
 
 public:
 	WEIGHT(double W, NEURON *SN) {
+		next = NULL;
 		SRCneuron = SN;
 		WtVal = W;
 	}
@@ -134,7 +144,7 @@ private:
 	NETWORK     *next;
 
 public:
-	NETWORK(void) { Alive = 0; }
+	NETWORK(void) { Alive = 0; next = NULL; }
 	int Setup(char *);
 	void ApplyVector(unsigned char *, int);
 	void RunNetWork(void);
