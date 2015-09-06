@@ -119,7 +119,7 @@ LAYER::LAYER(int layer_id, NETFILEDATA *netdata) {
 	next = NULL;
 	//Get # of  neurons in layer #layer_id
 	Ncount = netdata->GetLayerSize(layer_id);
-	for (int i = 0; i <= Ncount; ++i) {
+	for (unsigned int i = 0; i <= Ncount; ++i) {
 		if (i == Ncount) {
 			Nptr = new NEURON(i, TRUE);			//This is a bias Neuron
 		}
@@ -152,7 +152,7 @@ int LAYER::SetWeight(NEURON *PrevNeuron, NETFILEDATA *netdata) {
 		status = 0;
 	while (CurNeuron != NULL) {
 		if (!CurNeuron->IsBias()) {				//Bias neurons don't have incoming wgts
-			PrevNeuron = PrevNeuron;
+			PrevPtr = PrevNeuron;
 			prevx = 0;
 			while (PrevPtr) {
 				ZWeight = netdata->GetWeight(LayerID, curx, prevx++);
@@ -176,7 +176,6 @@ int NETWORK::Setup(char *wgt_file_name) {
 	LAYER *Lptr;
 	NEURON N;
 	int status = 0;
-	char *tbl_file_name;
 	//Set Up network using info in the weight file
 	status = netdata.SetupNet(wgt_file_name);
 	if (status > 0)
@@ -206,7 +205,7 @@ int NETWORK::SetWeights(void) {
 		*L2ptr = INlayer->GetNext();
 	int status = 0;
 	while (L2ptr) {
-		status = L2ptr->SetWeight(L1ptr->GetFirstNeuron, &netdata);
+		status = L2ptr->SetWeight(L1ptr->GetFirstNeuron(), &netdata);
 		L1ptr = L1ptr->GetNext();
 		L2ptr = L2ptr->GetNext();
 	}

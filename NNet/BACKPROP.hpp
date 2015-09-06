@@ -69,9 +69,4 @@ public:
 	inline double QueryEta() { return ETA; }
 	inline double QueryAlpha() { return ALPHA; }
 };
-
-//Misc flags
-int ArchOn = AVERAGE;	//Set to 1=ALL, NONE, AVERAGE or WORST to control data sent to ARCHIVE file for graphical analysis
-
-FILE *ARCHIVE;			//Archive training sequence
 #endif
